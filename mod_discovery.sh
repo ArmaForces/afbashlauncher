@@ -53,6 +53,8 @@ bimbam=$(cat ../temp/missions.json | jq '.[]  | .modlist' | sed 's/\"//g' | sed 
 IEFES="$IFS"
 IFS='
 '
+
+## tego nie rusz
 if [ ! "$(echo "$bimbam" | sort | uniq)" = "$(cat ../cfg/oldmissions.txt)" ]
 then
     FLAG="1"
@@ -64,6 +66,8 @@ then
         rm ../temp/temp_blacklist.txt
     done
 fi
+# dotąd
+
 
 for each in $(echo  "$bimbam" | sort | uniq)
 do
@@ -83,13 +87,14 @@ do
         mkdir cache
     fi
     cd cache
-    ####OBSOLETE
-    ####wget -N -q "https://server.armaforces.com:8888/modsets/$each.csv"
 
     curl -s "https://armaforces.com/api/mod-lists/by-name/$each" > "$each".json
-    cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > required.json
-    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > optional.json
-    cat "$each".json | jq '.dlcs[] | {appId:.appId, directory:.directory}' > dlcs.json
+    cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > ../required.json
+    cat ../required.json >> ../../../temp/mody.json
+    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > ../optional.json
+    cat ../optional.json >> ../../../temp/dopuszczone.json
+    cat "$each".json | jq '.dlcs[] | {appId:.appId, directory:.directory}' > ../dlcs.json
+    cat "$each".json | jq '.mods[] | select(.source=="directory") | .directory' | sed 's/\"//g' > ../extra.txt
     cat "$each".json | jq '.dlcs[] | .appId' > "$each".dlcs_appId
     ## na potem
     cp "$each".dlcs_appId ../dlcs_appId.txt
@@ -282,6 +287,9 @@ IFS=$OLDIFS
     cd "$STARTPWD" ########nie ruszaj!
 done
 
+cat ../temp/mody.json | jq '. | =sort_by(.itemId)'
+
+
 if [ "$FLAG" = "1" ]
 then
     PEDEU="$PWD"
@@ -312,7 +320,7 @@ do
     if [ -n "`cat ../cfg/blacklist.txt | grep -w $each`" ]
     then
         echo "
-Modset $each jest na czarnolisto. Pomijam...
+        Modset $each jest na czarnolisto. Pomijam...
         "
     else
         cat "../profile/$each/dopuszczone.csv" | grep -v "\"id\";\"name\"" | grep -v "\"id\",\"name\"" >> ../temp/dopuszczone.csv
