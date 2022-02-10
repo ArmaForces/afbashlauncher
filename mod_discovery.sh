@@ -286,8 +286,8 @@ IFS=$OLDIFS
 
     cd "$STARTPWD" ########nie ruszaj!
 done
-
-cat ../temp/mody.json | jq '. | =sort_by(.itemId)'
+cat ../temp/mody.json | jq -s 'sort_by(.itemId)|unique_by(.itemId)' > ../profile/mody.json
+cat ../temp/dopuszczone.json | jq -s 'sort_by(.itemId)|unique_by(.itemId)' > ../profile/dopuszczone.json
 
 
 if [ "$FLAG" = "1" ]
