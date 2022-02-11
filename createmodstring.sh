@@ -1,22 +1,9 @@
 #!/bin/bash
 >../temp/mody
-#cat ../temp/dodatkoweobrobione.csv | grep id | sed 's/.*=//' | sed ':a;N;$!ba;s/\n/ /g' > ../temp/mody
-#cat ../profile/$2/mody.csv | grep id | sed 's/.*=//' | sed ':a;N;$!ba;s/\n/ /g' >> ../temp/mody
 
-IEFES=$IFS
-IFS=';'
-while read id name
-do
-    echo $(echo $id | tr -d '"') >> ../temp/mody
-done < ../temp/dodatkoweobrobione.csv
-while read id name
-do
-    echo $(echo $id | tr -d '"') >> ../temp/mody
-done < ../profile/$2/mody.csv
-IFS=$IEFES
+cat ../temp/dodatkoweobrobione.json | jq '.[]|.itemId' >> ../temp/mody
+cat ../profile/$2/mody.json | jq '.itemId' >> ../temp/mody
 
-
-#echo "$1" | tr '/' '\'
 if [ -f ../cfg/lin ]
 then
     echo "$1" | sed 's/[/][/]*/\\\\/g' > ../temp/modpath.txt

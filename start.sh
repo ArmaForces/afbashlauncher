@@ -280,9 +280,7 @@ dos2unix -q ../temp/current.txt
 MODY="`cat ../temp/current.txt`"
 echo "Startuje klienta z modami \"$MODY\""
 echo "Parsuje liste modow. Poczekaj..."
-#sh checkmods.sh "$MODPATH" "$MODY" "$ADDITIONALMODSPWD"
 sh deleteaddmods.sh "$MODY"
-#bash createmodstring.sh "$MODPATH" "$MODY" "$ADDITIONALMODSPWD" > ../temp/modassembly.txt
 bash createmodstring.sh "$MODPATH" "$MODY" "$ARMA3UNIXPATH" > ../temp/modassembly.txt
 
 PEEWUDE=$(pwd)

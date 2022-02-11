@@ -5,8 +5,6 @@ then
     cd scripts
 fi
 
-#sh mod_discovery.sh
-
 if [ ! -d ../temp ]
 then
     mkdir ../temp
@@ -20,26 +18,11 @@ fi
 
 >../temp/dopuszczone.json
 
-#IEFES=$IFS
-#IFS=';'
-#while read id name
-#do
-#echo $(echo $id | tr -d '"') >> ../temp/availablemodlist.txt
-#echo "$(echo $name | tr -d '"') $(echo $id | tr -d '"')" >> ../temp/availablemodlistverbose.txt
-#done < ../profile/dopuszczone.csv
 
-#while read id name
-#do
-#echo $(echo $id | tr -d '"') >> ../temp/dodatkowemody.txt
-#done < ../cfg/dodatkowemody.csv
-
-#IFS=$IEFES
-
-
-jq '.[]|.itemId' ../profile/dopuszczone.json > ../temp/availablemodlist.txt
-jq '.[]|.name' ../profile/dopuszczone.json | tr -d '"' > ../temp/availablemodlistname.txt
+cat ../profile/dopuszczone.json | jq '.[]|.itemId'  > ../temp/availablemodlist.txt
+cat ../profile/dopuszczone.json | jq '.[]|.name'  | tr -d '"' > ../temp/availablemodlistname.txt
 paste ../temp/availablemodlist.txt ../temp/availablemodlistname.txt > ../temp/availablemodlistverbose.txt
-jq '.[]|.itemId' ../cfg/dodatkowemody.json > ../temp/dodatkowemody.txt
+cat ../cfg/dodatkowemody.json | jq '.[]|.itemId'  > ../temp/dodatkowemody.txt
 
 
 while [ ! "$SWITCH" = "z" ]
@@ -89,18 +72,12 @@ Zapisuje...
 "
 while read each
 do
-    jq '.[] | select(.itemId == '$each')' ../profile/dopuszczone.json >> ../temp/dopuszczone.json
+    cat ../profile/dopuszczone.json | jq '.[] | select(.itemId == '$each')'  >> ../temp/dopuszczone.json
 done<../temp/dodatkowemody.txt
 
-jq -s ../temp/dopuszczone.json > ../cfg/dodatkowemody.json
+cat ../temp/dopuszczone.json | jq -s  > ../cfg/dodatkowemody.json
 
-#while read each
-#do
-    #cat ../profile/dopuszczone.csv | grep "$each" >> ../temp/dopuszczone.csv
-#done <../temp/dodatkowemody.txt
-#cat ../temp/dopuszczone.csv > ../cfg/dodatkowemody.csv
-
-rm ../temp/dopuszczone.csv
+rm ../temp/dopuszczone.json
 rm ../temp/dodatkowemody.txt
 rm ../temp/availablemodlist.txt
 rm ../temp/availablemodlistverbose.txt

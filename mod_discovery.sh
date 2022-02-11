@@ -98,8 +98,9 @@ do
     curl -s "https://armaforces.com/api/mod-lists/by-name/$each" > "$each".json
     cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > ../mody.json
     cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > ../dopuszczone.json
-    cat "$each".json | jq '.dlcs[] | {appId:.appId, directory:.directory}' > ../dlcs.json
+    cat "$each".json | jq '.dlcs[] | .appId' > ../dlcs_appId.txt
     cat "$each".json | jq '.mods[] | select(.source=="directory") | .directory' | sed 's/\"//g' > ../extra.txt
+    cat "$each".json | jq '.dlcs[] | .directory' | sed 's/\"//g' >> ../extra.txt
 
     cd ..
 
@@ -194,7 +195,8 @@ then
         HOWMANY=$((HOWMANY + 1))
     done
     echo ""
-    echo "Musisz uzupelnic $HOWMANY brakujacych modow. Jezeli niektore to dodatkowe mody, ktorych nie uzywasz, usun odpowiednie linijki z pliku dodatkowemody.txt zlokalizowanego w folderze scripts."
+    echo "Musisz uzupelnic $HOWMANY brakujacych modow. Jezeli niektore to dodatkowe mody, ktorych nie uzywasz, usun odpowiednie linijki z pliku dodatkowemody.txt zlokalizowanego w folderze scripts. Nacisnij ENTER aby kontynuowac:"
+    read -r
     cd ../bin
     LISTOFMODS=$(cat ../temp/todownload2.txt | sed ':a;N;$!ba;s/\n/ /g')
     WorkshopControl -s -w 107410 $LISTOFMODS
