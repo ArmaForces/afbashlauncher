@@ -54,14 +54,8 @@ then
     cat ../cfg/DONOTDELETETHISMODS.txt | grep id | sed 's/.*=//' > ../temp/todownload3.txt
     cat ../cfg/DONOTDELETETHISMODS.txt|  awk 'sub("$", "\r")' > ../temp/temp.txt
     cat ../temp/temp.txt > ../cfg/DONOTDELETETHISMODS.txt
-    IEFES=$IFS
-    IFS=';'
-    while read id name
-    do
-        echo $(echo $id | tr -d '"') >> ../temp/todownload3.txt
-    done < ../profile/mody.csv
-    IFS=$IEFES
 
+    cat ../profile/mody.json | jq '.[] | .itemId' > ../temp/todownload3.txt
 
     echo "Chcesz usunac wszystkie nieuzywane, czy zachowac wszystkie dopuszczone na serwerze? (PO WYBORZE NIE BEDZIE JUZ ODWROTU!!!)
     z - zachowaj
@@ -77,21 +71,9 @@ then
 
     if [ "$CHOICE" = "z" ]
     then
-        IEFES=$IFS
-        IFS=';'
-        while read id name
-        do
-            echo $(echo $id | tr -d '"') >> ../temp/todownload3.txt
-        done < ../profile/dopuszczone.csv
-        IFS=$IEFES
+        cat ../profile/dopuszczone.json | jq '.[] | .itemId' >> ../temp/todownload3.txt
     else
-        IEFES=$IFS
-        IFS=';'
-        while read id name
-        do
-            echo $(echo $id | tr -d '"') >> ../temp/todownload3.txt
-        done < ../cfg/dodatkowemody.csv
-        IFS=$IEFES
+        cat ../cfg/dodatkowemody.json | jq '.[] | .itemId' >> ../temp/todownload3.txt
     fi
     cat ../temp/todownload3.txt | sort | uniq > ../temp/temp3.txt
     cat ../temp/toparse.txt > ../temp/todownload.txt
@@ -132,11 +114,9 @@ then
     echo ""
     echo "Do usuniecia $HOWMANY modow."
     echo ""
-    echo "Moze zostac otwartych wiele kart przegladarki w celu odsubskrybowania. Po ile kart na raz chcesz otworzyc?"
+    echo "Po tej operacji nie bedzie juz odwrotu. Aby kontynuowac nacisnij ENTER:"
     echo ""
-    echo "0 i mniej lub $HOWMANY i wyzej - wszystkie na raz (domyslnie)"
-    echo "1 - $((HOWMANY - 1)) na tyle podzielone listy."
-    echo ""
+    read -r
     HOWMUCH="0"
     while [ -z $(echo "$HOWMUCH" | grep -E "^[[:digit:]]{1,}$") ]
     do
@@ -163,22 +143,6 @@ then
     awk 'sub("$", "\r")' ../temp/otwo.bat > ../start.bat
     echo ""
     echo ""
-    #for each in `cat ../temp/todownload2.txt`
-    #do
-    #   rm -rf "$MODSPWD/$each"
-    #		echo "<tr data-type=\"ModContainer\">
-    #          <td data-type=\"DisplayName\">$each</td>
-    ##          <td>
-    #            <span class=\"from-steam\">Steam</span>
-    #          </td>
-    #          <td>
-    #            <a href=\"http://steamcommunity.com/sharedfiles/filedetails/?id=$each\" data-type=\"Link\">http://steamcommunity.com/sharedfiles/filedetails/?id=$each</a>
-    #          </td>
-    #        </tr>" >> ../cfg/dousuniecia.html
-    #	done
-    #	cat ../scripts/end.html >> ../cfg/dousuniecia.html
-    #	echo "Zrobione! Przeciagnij plik dousuniecia.html z folderu cfg do launchera Army i usun mody"
-    #	read
 
     cat "$ACFPWD/appworkshop_107410.acf" | grep --before-context=2 --after-context=3 size > ../temp/tempsize.txt
     for each in `cat ../temp/todownload2.txt`
