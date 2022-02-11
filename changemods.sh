@@ -36,6 +36,12 @@ fi
 #IFS=$IEFES
 
 
+jq '.[]|.itemId' ../profile/dopuszczone.json > ../temp/availablemodlist.txt
+jq '.[]|.name' ../profile/dopuszczone.json | tr -d '"' > ../temp/availablemodlistname.txt
+paste ../temp/availablemodlist.txt ../temp/availablemodlistname.txt > ../temp/availablemodlistverbose.txt
+jq '.[]|.itemId' ../cfg/dodatkowemody.json > ../temp/dodatkowemody.txt
+
+
 while [ ! "$SWITCH" = "z" ]
 do
     NUMBER=0
@@ -83,9 +89,17 @@ Zapisuje...
 "
 while read each
 do
-    cat ../profile/dopuszczone.csv | grep "$each" >> ../temp/dopuszczone.csv
-done <../temp/dodatkowemody.txt
-cat ../temp/dopuszczone.csv > ../cfg/dodatkowemody.csv
+    jq '.[] | select(.itemId == '$each')' ../profile/dopuszczone.json >> ../temp/dopuszczone.json
+done<../temp/dodatkowemody.txt
+
+jq -s ../temp/dopuszczone.json > ../cfg/dodatkowemody.json
+
+#while read each
+#do
+    #cat ../profile/dopuszczone.csv | grep "$each" >> ../temp/dopuszczone.csv
+#done <../temp/dodatkowemody.txt
+#cat ../temp/dopuszczone.csv > ../cfg/dodatkowemody.csv
+
 rm ../temp/dopuszczone.csv
 rm ../temp/dodatkowemody.txt
 rm ../temp/availablemodlist.txt

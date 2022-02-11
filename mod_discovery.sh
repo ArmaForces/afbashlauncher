@@ -96,8 +96,8 @@ do
     cd cache
 
     curl -s "https://armaforces.com/api/mod-lists/by-name/$each" > "$each".json
-    cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > ../required.json
-    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > ../optional.json
+    cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > ../mody.json
+    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > ../dopuszczone.json
     cat "$each".json | jq '.dlcs[] | {appId:.appId, directory:.directory}' > ../dlcs.json
     cat "$each".json | jq '.mods[] | select(.source=="directory") | .directory' | sed 's/\"//g' > ../extra.txt
 
@@ -112,7 +112,6 @@ done
     curl -s "https://server.armaforces.com:8888/status" > ../temp/current.json
     cat ../temp/current.json | jq '.modsetName' | sed 's/\"//g' | grep -v "null" | sed 's/\ /%20/g' > ../temp/current.txt
 
-#bimbam=$(curl -s https://server.armaforces.com:8888/modsets/downloadable.json | grep -v "\[" | grep -v "\]" | sed -e 's/^[ \t]*//' | tr --delete , | tr --delete , | tr -d '"' | grep -v "modlist_cache"; cat ../temp/current.txt)
 curl -s "https://boderator.armaforces.com/api/missions?includeArchive=true&fromDateTime=$(date +"%Y-%m-%d")" > ../temp/missions.json
 bimbam=$(cat ../temp/missions.json | jq '.[]  | .modlistName' | sed 's/\"//g' | sed 's/.*\///g' | grep -v "null"; cat ../temp/current.txt; echo "Default")
 IEFES="$IFS"
@@ -127,18 +126,17 @@ do
         Modset $each jest na czarnolisto. Pomijam...
         "
     else
-        jq "../profile/$each/dopuszczone.json" >> ../temp/dopuszczone.json
-        jq "../profile/$each/mody.json" >> ../temp/mody.json
+        cat "../profile/$each/dopuszczone.json" | jq >> ../temp/dopuszczone.json
+        cat "../profile/$each/mody.json" | jq >> ../temp/mody.json
     fi
 
 done
 
-jq -s 'sort_by(itemId)|unique_by(itemId)' "../temp/dopuszczone.json" > ../profile/dopuszczone.json
-jq -s 'sort_by(itemId)|unique_by(itemId)' "../temp/mody.json" > ../profile/mody.json
+cat ../temp/dopuszczone.json | jq -s 'sort_by(.itemId)|unique_by(.itemId)' > ../profile/dopuszczone.json
+cat ../temp/mody.json | jq -s 'sort_by(.itemId)|unique_by(.itemId)' > ../profile/mody.json
 
 rm ../temp/mody.json
 rm ../temp/dopuszczone.json
-fi
 
 if [ -f ../cfg/dodatkowemody.json ]
 then
@@ -169,8 +167,8 @@ echo "@echo off" > ../start.bat
 ls "$MODPATH" | tr " " "\n" > ../temp/toparse.txt
 >../temp/todownload3.txt
 
-jq '.[]|.itemId' ../profile/mody.json > ../temp/todownload3.txt
-jq '.[]|.itemId' ../cfg/dodatkowemody.json >> ../temp/todownload3.txt
+cat ../profile/mody.json | jq '.[]|.itemId'  > ../temp/todownload3.txt
+cat ../cfg/dodatkowemody.json | jq '.[]|.itemId'  >> ../temp/todownload3.txt
 
 cat ../temp/todownload3.txt | sort | uniq > ../temp/temp3.txt
 >../temp/todownload.txt
