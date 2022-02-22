@@ -96,10 +96,10 @@ do
     cd cache
 
     curl -s "https://armaforces.com/api/mod-lists/by-name/$each" > "$each".json
-    cat "$each".json | jq '.mods[] | select(.type=="required") | {itemId:.itemId, name:.name}' > ../mody.json
-    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | {itemId:.itemId, name:.name}' > ../dopuszczone.json
+    cat "$each".json | jq '.mods[] | select(.type=="required") | select(.status == "disabled"|not) | {itemId:.itemId, name:.name}' > ../mody.json
+    cat "$each".json | jq '.mods[] | select(.type=="optional" or .type=="client_side") | select(.status == "disabled"|not) | {itemId:.itemId, name:.name}' > ../dopuszczone.json
     cat "$each".json | jq '.dlcs[] | .appId' > ../dlcs_appId.txt
-    cat "$each".json | jq '.mods[] | select(.source=="directory") | .directory' | sed 's/\"//g' > ../extra.txt
+    cat "$each".json | jq '.mods[] | select(.status == "disabled"|not) | select(.source=="directory") | .directory' | sed 's/\"//g' > ../extra.txt
     cat "$each".json | jq '.dlcs[] | .directory' | sed 's/\"//g' >> ../extra.txt
 
     cd ..
