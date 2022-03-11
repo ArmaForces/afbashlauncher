@@ -195,7 +195,7 @@ then
         HOWMANY=$((HOWMANY + 1))
     done
     echo ""
-    echo "Musisz uzupelnic $HOWMANY brakujacych modow. Jezeli niektore to dodatkowe mody, ktorych nie uzywasz, usun odpowiednie linijki z pliku dodatkowemody.txt zlokalizowanego w folderze scripts. Nacisnij ENTER aby kontynuowac:"
+    echo "Musisz uzupelnic $HOWMANY brakujacych modow. Niektore to mody opcjonalne. Mozesz za pomoca skryptu armaforces_zmien_mody_dodatkowe wyrzucic niepotrzebne mody. Nacisnij ENTER aby kontynuowac:"
     read -r
     cd ../bin
     LISTOFMODS=$(cat ../temp/todownload2.txt | sed ':a;N;$!ba;s/\n/ /g')
