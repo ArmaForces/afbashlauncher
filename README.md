@@ -3,7 +3,7 @@
 Do powstania została użyta Windowsowa kompilacja Linuksowego Shella:
 https://sourceforge.net/projects/win-bash/
 
-Proszę o zgłaszanie błędów i nadsyłanie propozycji nowych funkcjonalności pod tym postem.
+Proszę o zgłaszanie błędów i nadsyłanie propozycji nowych funkcjonalności.
 
 Spis Treści
 1. Dlaczego i po co?
@@ -50,34 +50,34 @@ Changelog
 
 v12022022
 
-usunięty spadek po starym api (tj. pliki .cvs)
-dodana pełna obsługa plików JSON - w porównaniu do poprzednika jest dużo szybszy
+- usunięty spadek po starym api (tj. pliki .cvs)
+- dodana pełna obsługa plików JSON - w porównaniu do poprzednika jest dużo szybszy
 jako, że jest szybszy, to teraz przy każdym uruchomieniu parsuje modlistę do pobrania, nie tak jak było poprzednio, tylko przy zmianie zawartości JSONa na zdalnym serwerze.
 wywalone stare wyjście przy samym pobieraniu modów (już nie informuje o otwarciu kart przeglądarki ;p)
 
 v14112021
 
-removed: autoclean.bat - potwierdzenie usunięcia modów
-fixed: poprawione czytanie CDLC z API
-added: wrzucanie bieżącej modlisty do oryginalnego launchera (jeżeli ktoś chce korzystać)
-added: wybór między odpalaniem bezpośrednim Army, a odpaleniem przez oryginalny launcher (wystarczy dodać plik “origlauncher” do folderu z launcherem)
+- removed: autoclean.bat - potwierdzenie usunięcia modów
+- fixed: poprawione czytanie CDLC z API
+- added: wrzucanie bieżącej modlisty do oryginalnego launchera (jeżeli ktoś chce korzystać)
+- added: wybór między odpalaniem bezpośrednim Army, a odpaleniem przez oryginalny launcher (wystarczy dodać plik “origlauncher” do folderu z launcherem)
 
 v11082020
 
-added: zamiast pobierać wszystkie modlisty pobiera tylko na nadchodzące misje
+- added: zamiast pobierać wszystkie modlisty pobiera tylko na nadchodzące misje
 
 v17072019beta
 
-changed: pobieranie danych o serwerze bezpośrednio przez klienta (dotąd były pobierane przez serwer launchera)
-changed: wszystkie modlisty są pobierane przez klienta oraz traktowane są każde z osobna
-added: czarnolisto - wywalanie starych modlist. Przydatne przy czyszczeniu starych modów.
-deleted: liberation.bat
+- changed: pobieranie danych o serwerze bezpośrednio przez klienta (dotąd były pobierane przez serwer launchera)
+- changed: wszystkie modlisty są pobierane przez klienta oraz traktowane są każde z osobna
+- added: czarnolisto - wywalanie starych modlist. Przydatne przy czyszczeniu starych modów.
+- deleted: liberation.bat
 
 Generalnie launcher w tej wersji działa bardziej samodzielnie. Serwera używa tylko do pobierania poprawek kodu.
 
 v02052019
 
-changed: powiązanie launchera z generatorem by @veteran29 http://armaforces.maciejewski.cf/#
+- changed: powiązanie launchera z generatorem by @veteran29 http://armaforces.maciejewski.cf/#
 
 v20122018
 
@@ -103,9 +103,8 @@ v12112018
 - fixed: poprawiono autoclean.bat
 
 notka:
-_Ani samo odsubskrybowanie, ani usunięcie modów za pomocą launchera armowego nie usuwa modów z dysku. Co więcej - manifest appworkshop_107410.acf po odsubskrybowaniu nie jest modyfikowany przez klienta. To znaczy, że tak naprawdę nie pozbywamy się moda z dysku, a ręczne jego usunięcie upośledza update pozostałych modów (nie będą się updateować/nie można dodać nowych modów ponieważ linijka "SizeOnDisk"        "57563339354" jest niezmieniona i klient nie dostaje poprawnej informacji. Z moim skryptem usuwa moda z dysku oraz modyfikuje "appworkshop107410.acf" tak, aby klient nawet się nie zorientował, że coś jest nie tak ;).
-Set CPU Process Priority for Applications in Windows 10
-How to Set CPU Process Priority for Applications in Windows 10
+Ani samo odsubskrybowanie, ani usunięcie modów za pomocą launchera armowego nie usuwa modów z dysku. Co więcej - manifest appworkshop_107410.acf po odsubskrybowaniu nie jest modyfikowany przez klienta. To znaczy, że tak naprawdę nie pozbywamy się moda z dysku, a ręczne jego usunięcie upośledza update pozostałych modów (nie będą się updateować/nie można dodać nowych modów ponieważ linijka "SizeOnDisk"        "57563339354" jest niezmieniona i klient nie dostaje poprawnej informacji. Z moim skryptem usuwa moda z dysku oraz modyfikuje "appworkshop107410.acf" tak, aby klient nawet się nie zorientował, że coś jest nie tak ;).
+
 Changelog
 
 v11112018
